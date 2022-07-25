@@ -81,7 +81,7 @@ def ML_main(img):
     predictions = list(results.values())
     age =  predictions[1].reshape(-1)
 
-    print( "--------age ==", age[0]*100)
+    #print( "--------age ==", age[0]*100)
 
     #--------emotionモデル処理--------------------------------------------------
     pppe = PrePostProcessor(model_emotion)
@@ -121,18 +121,29 @@ def ML_main(img):
     # 最初の出力データを行ベクトルにする    
     emotion = predictions[0].reshape(-1)
     # 結果の表示
-    print(" neutral    happy      sad        surprise   anger")
-    print(emotion)
+    #print(" neutral    happy      sad        surprise   anger")
+    #print(emotion)
     emotion_t = (emotion > 0.4)
+
+    age_alert = False
+    emotion_alert = False
 
 
     
-    results_list = [age[0]*100 , emotion_t[2],emotion_t[3],emotion_t[4]]
+    #results_list = [age[0]*100 , emotion_t[2],emotion_t[3],emotion_t[4]]
+
+    if age[0]*100 >= 70:
+        age_alert = True
+
+    if emotion_t[2] == True or emotion_t[3] == True or emotion_t[4] == True:
+        emotion_alert = True
+
+    results_list = [age_alert ,emotion_alert]
 
     return results_list
 
 if __name__ == '__main__':
     imag = 'img.png'
     result_a = ML_main(imag)
-
+    print(result_a)
     sys.exit()
