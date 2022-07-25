@@ -145,5 +145,5 @@ def ML_main(img):
 if __name__ == '__main__':
     imag = 'img.png'
     result_a = ML_main(imag)
-    print(result_a)
+    #print(result_a)
     sys.exit()
