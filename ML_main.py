@@ -132,7 +132,7 @@ def ML_main(img):
     
     #results_list = [age[0]*100 , emotion_t[2],emotion_t[3],emotion_t[4]]
 
-    if age[0]*100 >= 70:
+    if age[0]*100 >= 75:
         age_alert = True
 
     if emotion_t[2] == True or emotion_t[3] == True or emotion_t[4] == True:
