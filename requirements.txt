@@ -53,7 +53,7 @@ numpy==1.19.5
 oauthlib==3.2.0
 onnx==1.12.0
 opencv-python==4.5.5.64
-openmodelzoo-modelapi @ file:///C:/Users/kumaneko/university/MLD2/open_model_zoo/demos/common/python
+
 openvino==2022.1.0
 openvino-dev==2022.1.0
 openvino-telemetry==2022.1.1
