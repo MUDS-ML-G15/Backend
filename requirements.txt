@@ -49,11 +49,10 @@ networkx==2.8.4
 nibabel==4.0.1
 nltk==3.7
 numba==0.55.2
-
+numpy==1.19.5
 oauthlib==3.2.0
 onnx==1.12.0
 opencv-python==4.5.5.64
-
 openvino==2022.1.0
 openvino-dev==2022.1.0
 openvino-telemetry==2022.1.1
@@ -99,7 +98,7 @@ tensorboard==2.9.1
 tensorboard-data-server==0.6.1
 tensorboard-plugin-wit==1.8.1
 tensorboardX==2.5.1
-tensorflow-cpu==2.5.3
+tensorflow==2.5.3
 tensorflow-estimator==2.5.0
 termcolor==1.1.0
 texttable==1.6.4
