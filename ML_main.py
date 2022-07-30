@@ -17,7 +17,9 @@ import cv2
 import numpy as np
 from openvino.preprocess import PrePostProcessor, ResizeAlgorithm
 from openvino.runtime import Core, Layout, Type
-
+import base64
+from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 
 
 def ML_main(img):
@@ -159,11 +161,19 @@ class image_(BaseModel):
     value: str
 
 app = FastAPI()
-
-@app.post("/")
-def read_root(image_: value):
-    data = image_.value 
+origins = ["*"]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+@app.get("/{bases}")
+def read_root(bases):
+    data = bases.replace("-","/")
     img_path = base64.b64decode(data.encode())
     result = ML_main(img_path)
     time.sleep(1)
     return {"index1":result[0],"index2":result[1]}
+
