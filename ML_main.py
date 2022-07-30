@@ -9,6 +9,10 @@
 import logging as log
 import sys
 
+from fastapi import FastAPI
+import time
+from pydantic import BaseModel
+
 import cv2
 import numpy as np
 from openvino.preprocess import PrePostProcessor, ResizeAlgorithm
@@ -142,11 +146,24 @@ def ML_main(img):
 
     return results_list
 
-if __name__ == '__main__':
-    data = 'data'
+# if __name__ == '__main__':
+#     data = 'data'
 
-    img = base64.b64decode(data.encode())
+#     img = base64.b64decode(data.encode())
     
-    result_a = ML_main(img)
-    #print(result_a)
-    sys.exit()
+#     result_a = ML_main(img)
+#     #print(result_a)
+#     sys.exit()
+
+class image_(BaseModel):
+    value: str
+
+app = FastAPI()
+
+@app.post("/")
+def read_root(image_: value):
+    data = image_.value 
+    img_path = base64.b64decode(data.encode())
+    result = ML_main(img_path)
+    time.sleep(1)
+    return {"index1":result[0],"index2":result[1]}
