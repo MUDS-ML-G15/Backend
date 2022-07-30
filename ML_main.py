@@ -143,7 +143,10 @@ def ML_main(img):
     return results_list
 
 if __name__ == '__main__':
-    imag = 'img.png'
-    result_a = ML_main(imag)
+    data = 'data'
+
+    img = base64.b64decode(data.encode())
+    
+    result_a = ML_main(img)
     #print(result_a)
     sys.exit()
