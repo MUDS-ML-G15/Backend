@@ -133,9 +133,15 @@ def ML_main(img):
     # 最初の出力データを行ベクトルにする    
     emotion = predictions[0].reshape(-1)
     # 結果の表示
-    #print(" neutral    happy      sad        surprise   anger")
-    #print(emotion)
-    emotion_t = (emotion > 0.4)
+
+    print("_____________________________results_________________________________________")
+    print(" neutral    happy      sad        surprise   anger")
+    print(emotion)
+
+    print("________________age____________________________________________")
+    print(age[0]*100)
+
+    emotion_t = (emotion > 0.3)
 
     age_alert = False
     emotion_alert = False
@@ -250,7 +256,7 @@ async def read_root(hogeh):
     result = ML_main('input.png')
     time.sleep(1)
     print("----------complete-----------")
-    return {"index1":result[0],"index2":result[1],"age":result[2],"sad":result[3],"surprise":result[4],"anger":result[5]}
+    return {"index1":result[0],"index2":result[1]}
 
 @app.get("/hello")
 async def helloo():
