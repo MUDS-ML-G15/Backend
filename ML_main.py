@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 # Intel社のサンプルを元にy.fukuharaが簡略化と日本語コメントの追記（2022/07）
-
+from time import sleep
 
 import logging as log
 import sys
@@ -14,6 +14,12 @@ import time
 from pydantic import BaseModel
 
 import cv2
+import io
+
+from PIL import Image
+from io import BytesIO
+
+
 import numpy as np
 from openvino.preprocess import PrePostProcessor, ResizeAlgorithm
 from openvino.runtime import Core, Layout, Type
@@ -144,7 +150,7 @@ def ML_main(img):
     if emotion_t[2] == True or emotion_t[3] == True or emotion_t[4] == True:
         emotion_alert = True
 
-    results_list = [age_alert ,emotion_alert]
+    results_list = [age_alert ,emotion_alert,age[0]*100,emotion[2],emotion[3],emotion[4]]
 
     return results_list
 
@@ -161,19 +167,91 @@ class image_(BaseModel):
     value: str
 
 app = FastAPI()
-origins = ["*"]
+#origins = ["*"]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"],
+    allow_headers=["*"]
 )
-@app.get("/{bases}")
-def read_root(bases):
-    data = bases.replace("-","/")
-    img_path = base64.b64decode(data.encode())
-    result = ML_main(img_path)
-    time.sleep(1)
-    return {"index1":result[0],"index2":result[1]}
 
+@app.get("/apiv2/{hogeh}")
+async def read_root(hogeh):
+    print("------activate-----------------------------")
+    
+    #print("bases ---------------",hogeh)
+    data1 = hogeh.replace("_s-","/")
+    data1 = data1.replace("_c-",":")
+    data1 = data1.replace("_sc-",";")
+    data1 = data1.replace("_cn-",",")
+    data1 = data1.replace("_p-","+")
+
+    print(data1)
+    
+    data1 += "=" * ((4 - len(data1) % 4) % 4)
+
+    #data2 = base64.b64encode(bytes(data1,'utf-8'))
+    #print(type(data))
+    
+    
+    
+
+    # fh = open("Input.png","wb")
+    # fh.write(data1.decode('png'))
+    # fh.close()
+    
+
+    #print("data ---------------",data2)
+
+    #------------png--------------------------------------------------------#
+    #img_by = base64.b64decode(data1.encode())
+
+    #img_by = bytes( "b'"+ data1 +"'" )
+    img_by = data1
+    print(img_by)
+
+    #img_by = base64.b64encode(bytes(data1,'utf-8'))
+
+
+    #print(data1,"--------------------------------------------")
+    #img_by = base64.b64encode(bytes(data1))
+
+  
+    with open("input.png",mode="wb") as f4:
+        img_de = base64.b64decode(img_by)
+        print("hogehoge")
+
+        
+        
+        f4.write(img_de)
+
+    #plan2
+    # im = Image.open(BytesIO(base64.b64decode(data1)))
+    # im.save("input.png",'PNG')
+
+    #plan3
+
+
+
+
+
+    #-------------jpg---------------------------------------#
+    #jpg = np.frombuffer(img_by,dtype=np.uint8)
+    #img_path = cv2.imdecode(jpg, cv2.IMREAD_COLOR)
+    #input_path _ r"test.jpg""
+    #cv2.imwrite(input_path,img_path)
+
+    #------------------------------------------------------#
+
+    
+    #img_path = base64.b64decode(data.encode())
+    #print("img_path========================",img_path)
+    result = ML_main('input.png')
+    time.sleep(1)
+    print("----------complete-----------")
+    return {"index1":result[0],"index2":result[1],"age":result[2],"sad":result[3],"surprise":result[4],"anger":result[5]}
+
+@app.get("/hello")
+async def helloo():
+    return("hello")
